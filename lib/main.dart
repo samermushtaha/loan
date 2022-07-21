@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:loan_app/app_setting/app_local_storage.dart';
 import 'app_setting/app_language.dart';
 import 'app_setting/app_route.dart';
 
@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (context, child) => GetMaterialApp(
-        translations: AppLanguage(),
-        locale: Locale('en'),
-        theme: ThemeData.light(),
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoute.outboarding,
+        translations: AppLanguage(),
+        locale: AppLocalStorage().appLanguage,
+        theme: AppLocalStorage().appTheme,
+        initialRoute: Routes.outBoardingScreen,
         getPages: AppRoute.routes,
       ),
     );
