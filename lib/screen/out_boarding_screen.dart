@@ -14,7 +14,7 @@ class OutBoardingScreen extends StatelessWidget {
         controller: controller.pageController,
         scrollDirection: Axis.horizontal,
         onPageChanged: (index){controller.onPageChange(index);},
-        children: controller.outBoardingList,
+        children: controller.pages,
       ),
     );
   }

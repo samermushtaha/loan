@@ -4,14 +4,14 @@ import '../widget/app_out_boarding.dart';
 
 class OutBoardingController extends GetxController {
   late PageController pageController;
-  late List<AppOutBoarding> outBoardingList;
+  late List<AppOutBoarding> pages;
   int pageIndex = 0;
 
   @override
   void onInit() {
     super.onInit();
     pageController = PageController();
-    outBoardingList = [
+    pages = [
       AppOutBoarding(
         controller: this,
         image: 'images/img_out_boarding_1.png',
@@ -45,7 +45,7 @@ class OutBoardingController extends GetxController {
   }
 
   void onNextPageClick(int index){
-    if(index == 2){
+    if(index == pages.length - 1){
       // Go to Sign in
     }else{
       pageController.nextPage(duration: Duration(milliseconds: 500,), curve: Curves.easeInOut);
@@ -53,6 +53,10 @@ class OutBoardingController extends GetxController {
   }
 
   void onSkipClick(){
+    // Go to Sign in
+  }
+
+  void onGetStartClick(){
     // Go to Sign in
   }
 }
