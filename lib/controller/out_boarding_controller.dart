@@ -14,21 +14,21 @@ class OutBoardingController extends GetxController {
     pages = [
       AppOutBoarding(
         controller: this,
-        image: 'images/img_out_boarding_1.png',
-        title: 'Get Access To Quick Loans',
-        subTitle: 'Easily get access to loans using your phone',
+        image: 'images/img_out_boarding_1.svg',
+        title: 'outBoardingTitle1'.tr,
+        subTitle: 'outBoardingSubTitle1'.tr,
       ),
       AppOutBoarding(
         controller: this,
-        image: 'images/img_out_boarding_1.png',
-        title: 'Get Access To Quick Loans',
-        subTitle: 'Easily get access to loans using your phone',
+        image: 'images/img_out_boarding_2.svg',
+        title: 'outBoardingTitle2'.tr,
+        subTitle: 'outBoardingSubTitle2'.tr,
       ),
       AppOutBoarding(
         controller: this,
-        image: 'images/img_out_boarding_1.png',
-        title: 'Get Access To Quick Loans',
-        subTitle: 'Easily get access to loans using your phone',
+        image: 'images/img_out_boarding_3.svg',
+        title: 'outBoardingTitle3'.tr,
+        subTitle: 'outBoardingSubTitle3'.tr,
       ),
     ];
   }
