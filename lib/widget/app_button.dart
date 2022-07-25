@@ -1,32 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:loan_app/controller/sign_in_controller.dart';
 import '../app_setting/app_color.dart';
 import '../app_setting/app_font.dart';
+import '../model/api_state.dart';
 
 class AppButton extends StatelessWidget {
   late Function() onClick;
   late Color color;
   late String title;
-  AppButton({required this.onClick, required this.title, required this.color});
+  ApiState? state;
+
+  AppButton({
+    required this.onClick,
+    required this.title,
+    required this.color,
+    this.state
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        onClick();
-      },
-      child: Text(
-        title,
-        style: TextStyle(
-          color: AppColor.black,
-          fontSize: AppFont.medium,
-          fontFamily: AppFont.fontFamily,
-        ),
-      ),
+      onPressed: state != null ? state!.isLoading!.value ? null : (){onClick();} : (){onClick();},
+      child: state != null
+          ? Obx(
+              () => state!.isLoading!.value
+                  ? CircularProgressIndicator(color: AppColor.white,)
+                  : state!.isError!.value
+                      ? Text(
+                          'Error',
+                          style: TextStyle(
+                            color: AppColor.white,
+                            fontSize: AppFont.medium,
+                            fontFamily: AppFont.fontFamily,
+                          ),
+                        )
+                      : Text(
+                          title,
+                          style: TextStyle(
+                            color: AppColor.white,
+                            fontSize: AppFont.medium,
+                            fontFamily: AppFont.fontFamily,
+                          ),
+                        ),
+            )
+          : Text(
+              title,
+              style: TextStyle(
+                color: AppColor.white,
+                fontSize: AppFont.medium,
+                fontFamily: AppFont.fontFamily,
+              ),
+            ),
       style: ElevatedButton.styleFrom(
-          primary: color,
-          minimumSize: Size(double.infinity, 50.h),
-          elevation: 0),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r),
+        primary: color,
+        minimumSize: Size(double.infinity, 50.h),
+        elevation: 0,
+      ),
     );
   }
 }

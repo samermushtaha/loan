@@ -6,5 +6,5 @@ class AppFont{
   static final medium = 16.sp;
   static final small = 14.sp;
   static final verySmall = 12.sp;
-  static final fontFamily = '';
+  static final fontFamily = 'Poppins';
 }

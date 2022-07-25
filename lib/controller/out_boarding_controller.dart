@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:loan_app/app_setting/app_route.dart';
 import '../widget/app_out_boarding.dart';
 
 class OutBoardingController extends GetxController {
@@ -13,19 +14,16 @@ class OutBoardingController extends GetxController {
     pageController = PageController();
     pages = [
       AppOutBoarding(
-        controller: this,
         image: 'images/img_out_boarding_1.svg',
         title: 'outBoardingTitle1'.tr,
         subTitle: 'outBoardingSubTitle1'.tr,
       ),
       AppOutBoarding(
-        controller: this,
         image: 'images/img_out_boarding_2.svg',
         title: 'outBoardingTitle2'.tr,
         subTitle: 'outBoardingSubTitle2'.tr,
       ),
       AppOutBoarding(
-        controller: this,
         image: 'images/img_out_boarding_3.svg',
         title: 'outBoardingTitle3'.tr,
         subTitle: 'outBoardingSubTitle3'.tr,
@@ -41,22 +39,18 @@ class OutBoardingController extends GetxController {
 
   void onPageChange(int index){
     pageIndex = index;
-    update();
+    update(['outBoardingUpdate']);
   }
 
   void onNextPageClick(int index){
-    if(index == pages.length - 1){
-      // Go to Sign in
-    }else{
-      pageController.nextPage(duration: Duration(milliseconds: 500,), curve: Curves.easeInOut);
-    }
+    pageController.nextPage(duration: Duration(milliseconds: 500,), curve: Curves.easeInOut);
   }
 
   void onSkipClick(){
-    // Go to Sign in
+    Get.toNamed(Routes.signInScreen);
   }
 
   void onGetStartClick(){
-    // Go to Sign in
+    Get.toNamed(Routes.signInScreen);
   }
 }
