@@ -22,33 +22,33 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: state != null ? state!.isLoading!.value ? null : (){onClick();} : (){onClick();},
+      onPressed: state != null ? state!.isLoading.value ? null : (){onClick();} : (){onClick();},
       child: state != null
           ? Obx(
-              () => state!.isLoading!.value
-                  ? CircularProgressIndicator(color: AppColor.white,)
-                  : state!.isError!.value
+              () => state!.isLoading.value
+                  ? CircularProgressIndicator(color: context.theme.textTheme.headline2!.color,)
+                  : state!.isError.value
                       ? Text(
                           'Error',
                           style: TextStyle(
-                            color: AppColor.white,
+                            color: context.theme.textTheme.headline2!.color,
                             fontSize: AppFont.medium,
                             fontFamily: AppFont.fontFamily,
                           ),
                         )
                       : Text(
-                          title,
+                          title.tr,
                           style: TextStyle(
-                            color: AppColor.white,
+                            color: context.theme.textTheme.headline2!.color,
                             fontSize: AppFont.medium,
                             fontFamily: AppFont.fontFamily,
                           ),
                         ),
             )
           : Text(
-              title,
+              title.tr,
               style: TextStyle(
-                color: AppColor.white,
+                color: context.theme.textTheme.headline2!.color,
                 fontSize: AppFont.medium,
                 fontFamily: AppFont.fontFamily,
               ),

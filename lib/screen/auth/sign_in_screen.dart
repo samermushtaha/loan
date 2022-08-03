@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:loan_app/app_setting/app_color.dart';
 import 'package:loan_app/app_setting/app_font.dart';
 import 'package:loan_app/controller/sign_in_controller.dart';
 import 'package:loan_app/model/api_state.dart';
@@ -16,6 +15,7 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20).r,
         child: Column(
@@ -33,31 +33,16 @@ class SignInScreen extends StatelessWidget {
             Text(
               'signIn'.tr,
               style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: AppFont.fontFamily,
-                  fontSize: AppFont.veryLarge,
-                  fontWeight: FontWeight.bold),
+                color: context.theme.textTheme.headline1!.color,
+                fontFamily: AppFont.fontFamily,
+                fontSize: AppFont.veryLarge,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 30.h),
 
-            /// Phone Number Title
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'enterPhone'.tr,
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: AppFont.fontFamily,
-                  fontSize: AppFont.medium,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-
             /// Phone Number TextFiled
-            AppPhoneTextFiled(controller: _controller),
+            AppPhoneTextFiled(controller: _controller, title: 'enterPhone'),
             SizedBox(
               height: 30.h,
             ),
@@ -65,11 +50,11 @@ class SignInScreen extends StatelessWidget {
             /// Continue Button
             AppButton(
               onClick: () {
-                _controller.onContinueClick();
+                _controller.onLoginClick();
               },
-              title: 'continue'.tr,
-              color: AppColor.blue,
-              state: ApiState(isLoading: _controller.isLoading, isError: _controller.isError),
+              title: 'login'.tr,
+              color: context.theme.primaryColor,
+              state: _controller.apiState
             ),
           ],
         ),

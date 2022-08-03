@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:loan_app/controller/out_boarding_controller.dart';
 import '../app_setting/app_color.dart';
 
@@ -18,8 +19,8 @@ class AppSelectedPage extends StatelessWidget {
           return CircleAvatar(
             backgroundColor:
             controller.pageIndex == index
-                ? AppColor.blue
-                : AppColor.gray,
+                ? context.theme.primaryColor
+                : context.theme.textTheme.subtitle1!.color,
             radius: 5.r,
           );
         },

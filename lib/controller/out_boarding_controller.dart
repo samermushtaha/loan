@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app_setting/app_route.dart';
+import '../app_setting/app_local_storage.dart';
 import '../widget/app_out_boarding.dart';
 
 class OutBoardingController extends GetxController {
   late PageController pageController;
   late List<AppOutBoarding> pages;
-  int pageIndex = 0;
+  late int pageIndex;
 
   @override
   void onInit() {
     super.onInit();
+    SharedPreferencesController().setFirsTime(false);
+    pageIndex = 0;
     pageController = PageController();
     pages = [
       AppOutBoarding(
@@ -34,6 +37,7 @@ class OutBoardingController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    print('closed');
     pageController.dispose();
   }
 

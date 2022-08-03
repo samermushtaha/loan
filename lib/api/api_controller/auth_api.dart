@@ -1,48 +1,91 @@
+
 import 'package:dio/dio.dart';
 import 'package:loan_app/api/api_helper.dart';
 import 'package:loan_app/api/api_setting.dart';
+import 'package:loan_app/app_setting/app_local_storage.dart';
+import 'package:loan_app/model/login.dart';
+import 'package:loan_app/model/verification_code_response.dart';
+import 'package:loan_app/model/phone.dart';
+import '../../model/login_response.dart';
+import '../../model/sign_up_response.dart';
+import '../../model/user.dart';
 
 class AuthApi with ApiHelper {
   late Response response;
   var dio = Dio();
 
-  Future<bool> getVerificationCode(String phoneNumber) async {
-    var formData = FormData.fromMap({
-      'phone_number': phoneNumber,
-    });
-    response = await dio.post(ApiSetting.GET_CODE, data: formData);
+  Future<int?> getVerificationCode(Phone phone) async {
+    response = await dio.post(ApiSetting.GET_CODE, data: phone.body());
     if(isSuccessRequest(response.statusCode!)){
-      print(response.data['activation_code']);
-      return true;
+      VerificationCodeResponse loginResponse = VerificationCodeResponse.fromJson(response.data);
+      if(loginResponse.success){
+        return loginResponse.data;
+      }else{
+        print('Body = ${response.data['message']}');
+        return null;
+      }
     }else{
       print('Status = ${response.statusCode}');
-      print('Body = ${response.data}');
+      print('Body = ${response.data['message']}');
+      return null;
+    }
+  }
+
+  Future<bool> login(Login login) async {
+    response = await dio.post(ApiSetting.LOGIN, data: login.body());
+    if(isSuccessRequest(response.statusCode!)){
+      LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+      if(loginResponse.success){
+        SharedPreferencesController().setToken(loginResponse.data!.token!);
+        print(SharedPreferencesController().token);
+        return true;
+      }else{
+        print('Body = ${response.data['message']}');
+        return false;
+      }
+    }else{
+      print('Status = ${response.statusCode}');
+      print('Body = ${response.data['message']}');
       return false;
     }
   }
 
-  Future<bool> addProduct() async {
-    var formData = FormData.fromMap({
-      'title': 'test product',
-      'description': 'lorem ipsum set',
-      'image': 'https://i.pravatar.cc',
-      'category': 'electronic',
-      'price': 13.5,
-    });
-    response = await dio.post(
-      ApiSetting.ADD_PRODUCT,
-      data: formData,
-      onSendProgress: (int sent, int total) {
-        // print('$sent / $total');
-      },
-    );
-    print(response.statusCode);
+  Future<bool> signUp(User user) async {
+    response = await dio.post(ApiSetting.SIGNUP, data: user.body(), options: header());
     if(isSuccessRequest(response.statusCode!)){
-      // user = User.fromJson(jsonDecode(response.body));
-      return true;
+      print('Body** = ${response.data['Message']}');
+      SignUpResponse signUpResponse = SignUpResponse.fromJson(response.data);
+
+      if(signUpResponse.success){
+        print('Body*/ = ${response.data['Message']}');
+        SharedPreferencesController().setCurrentUserData(user);
+        return true;
+      }else{
+        print('Body +*/= ${response.data['Message']}');
+        return false;
+      }
     }else{
-      print(response.data);
+      print('Status = ${response.statusCode}');
+      print('Body = ${response.data['message']}');
       return false;
     }
   }
+
+  Future<bool> logOut() async {
+    response = await dio.get(ApiSetting.LOGOUT, options: header());
+    if(isSuccessRequest(response.statusCode!)){
+      if(response.data['success']){
+        SharedPreferencesController().sharedPreferences.remove('token');
+        return true;
+      }else{
+        print('Body +*/= ${response.data['Message']}');
+        return false;
+      }
+    }else{
+      print('Status = ${response.statusCode}');
+      print('Body = ${response.data['message']}');
+      return false;
+    }
+  }
+
 }

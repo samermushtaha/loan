@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:loan_app/controller/out_boarding_controller.dart';
 import 'package:loan_app/widget/app_button.dart';
 import 'package:loan_app/widget/app_selected_page.dart';
-import '../app_setting/app_color.dart';
 import '../app_setting/app_font.dart';
 
 class AppOutBoarding extends StatelessWidget {
@@ -13,11 +12,11 @@ class AppOutBoarding extends StatelessWidget {
   late String title;
   late String subTitle;
 
-  AppOutBoarding(
-      {required this.image,
-      required this.title,
-      required this.subTitle,
-      });
+  AppOutBoarding({
+    required this.image,
+    required this.title,
+    required this.subTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class AppOutBoarding extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: AppColor.white,
+              color: context.theme.backgroundColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(50),
                 topRight: Radius.circular(50),
@@ -52,10 +51,11 @@ class AppOutBoarding extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      color: AppColor.black,
-                      fontFamily: AppFont.fontFamily,
-                      fontSize: AppFont.veryLarge,
-                      fontWeight: FontWeight.bold),
+                    color: context.theme.textTheme.headline1!.color,
+                    fontFamily: AppFont.fontFamily,
+                    fontSize: AppFont.veryLarge,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(height: 15.h),
 
@@ -63,7 +63,7 @@ class AppOutBoarding extends StatelessWidget {
                 Text(
                   subTitle,
                   style: TextStyle(
-                    color: AppColor.gray,
+                    color: context.theme.textTheme.subtitle1!.color,
                     fontFamily: AppFont.fontFamily,
                     fontSize: AppFont.medium,
                   ),
@@ -82,7 +82,7 @@ class AppOutBoarding extends StatelessWidget {
                               controller.onGetStartClick();
                             },
                             title: 'start'.tr,
-                            color: AppColor.blue,
+                            color: context.theme.primaryColor,
                           );
                   },
                 ),
