@@ -34,6 +34,8 @@ class AppLanguage extends Translations{
       'email' : 'Email',
       'address' : 'Address',
       'sign_up' : 'Sign Up',
+      'select_address' : 'Select location',
+      'save' : 'Save',
 
       //********************** HomeScreen **********************//
       'welcome' : '     Welcome, ',
@@ -54,6 +56,7 @@ class AppLanguage extends Translations{
       //********************** AllUsersScreen **********************//
       'all_users' : 'Users',
       'search' : 'Search. . .',
+      'all_user' : 'All User',
 
       //********************** AddLoanScreen **********************//
       'request_loan' : 'Request loan',
@@ -117,6 +120,7 @@ class AppLanguage extends Translations{
       'email' : 'البريد الالكتروني',
       'address' : 'العنوان',
       'sign_up' : 'تسجيل',
+      'select_address' : 'حدد موقعك',
 
       //********************** HomeScreen **********************//
       'welcome' : '     مرحبا, سامر',

@@ -5,11 +5,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:loan_app/app_setting/app_route.dart';
 
+import '../api/api_setting.dart';
 import '../app_setting/app_color.dart';
 import '../app_setting/app_font.dart';
+import '../model/response/all_user_response.dart';
 
-class UserCard extends StatelessWidget {
-  const UserCard({Key? key}) : super(key: key);
+class AppUserCard extends StatelessWidget {
+  late UserCard userCard;
+  late Function onClick;
+  AppUserCard(this.userCard, this.onClick);
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +22,14 @@ class UserCard extends StatelessWidget {
           border: Border.all(color: context.theme.textTheme.subtitle1!.color!),
           borderRadius: BorderRadius.circular(10).r),
       child: ListTile(
-        onTap: (){Get.toNamed(Routes.loanDetailsScreen);},
+        onTap: (){onClick();},
         leading: CircleAvatar(
-          child: Image.asset('images/img_person.png'),
           radius: 30.r,
+          backgroundImage: userCard.image != null ? NetworkImage(ApiSetting.BASE_URL + '/' + userCard.image!) : AssetImage('images/img_person.png') as ImageProvider,
           backgroundColor: context.theme.backgroundColor,
         ),
         title: Text(
-          'Samer Mushtaha',
+          userCard.firstName.toString() + ' ' + userCard.lastName.toString(),
           style: TextStyle(
             color: context.theme.textTheme.headline1!.color,
             fontFamily: AppFont.fontFamily,
@@ -33,7 +37,7 @@ class UserCard extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          '+972592121665',
+          userCard.phoneNumber,
           style: TextStyle(
             color: context.theme.textTheme.subtitle1!.color,
             fontFamily: AppFont.fontFamily,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../app_setting/app_color.dart';
 import '../app_setting/app_font.dart';
@@ -24,7 +25,7 @@ class AppTransaction extends StatelessWidget {
       title: Text(
         '$amount\$',
         style: TextStyle(
-          color: AppColor.black,
+          color: context.theme.textTheme.headline1!.color,
           fontFamily: AppFont.fontFamily,
           fontSize: AppFont.large,
         ),

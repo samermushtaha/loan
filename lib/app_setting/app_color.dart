@@ -13,7 +13,7 @@ class AppColor{
   static const _lightGreen = Color(0xFF20A02D);
 
   // Dark color
-  static const _darkBlue2 = Color(0xFFE8F0FF);
+  static const _darkBlue2 = Color(0xFF0066CC);
   static const _darkBlue = Color(0xFF0066CC);
   static const _darkBlack = Color(0xFF1B262C);
   static const _darkWhite = Color(0xFFFFFFFF);
@@ -40,8 +40,10 @@ class AppColor{
     textTheme: TextTheme(
       headline1: TextStyle(color: _lightBlack),
       headline2: TextStyle(color: _lightWhite),
+      headline3: TextStyle(color: _lightBlue2),
       subtitle1: TextStyle(color: _lightGray),
     ),
+    iconTheme: IconThemeData(color: _lightBlue),
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: _lightGray),
   );
 
@@ -54,8 +56,10 @@ class AppColor{
     textTheme: TextTheme(
       headline1: TextStyle(color: _lightWhite),
       headline2: TextStyle(color: _lightWhite),
+      headline3: TextStyle(color: _darkBlue2),
       subtitle1: TextStyle(color: _lightGray),
-    )
+    ),
+    iconTheme: IconThemeData(color: _lightWhite),
   );
 
 }

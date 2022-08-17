@@ -41,6 +41,7 @@ class AppPhoneTextFiled extends StatelessWidget {
               borderRadius: BorderRadius.circular(10).r),
           child: InternationalPhoneNumberInput(
             maxLength: 11,
+            initialValue: PhoneNumber(isoCode: 'PSE'),
             autoFocus: true,
             cursorColor: context.theme.primaryColor,
             textStyle: TextStyle(

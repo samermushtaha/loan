@@ -16,47 +16,49 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.theme.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20).r,
-        child: Column(
-          children: [
-            /// Logo
-            Container(
-              width: double.infinity,
-              height: 0.35.sh,
-              child: Center(
-                child: Image.asset('images/img_logo.png'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20).r,
+          child: Column(
+            children: [
+              /// Logo
+              Container(
+                width: double.infinity,
+                height: 0.35.sh,
+                child: Center(
+                  child: Image.asset('images/img_logo.png'),
+                ),
               ),
-            ),
 
-            /// Title
-            Text(
-              'signIn'.tr,
-              style: TextStyle(
-                color: context.theme.textTheme.headline1!.color,
-                fontFamily: AppFont.fontFamily,
-                fontSize: AppFont.veryLarge,
-                fontWeight: FontWeight.bold,
+              /// Title
+              Text(
+                'signIn'.tr,
+                style: TextStyle(
+                  color: context.theme.textTheme.headline1!.color,
+                  fontFamily: AppFont.fontFamily,
+                  fontSize: AppFont.veryLarge,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 30.h),
+              SizedBox(height: 30.h),
 
-            /// Phone Number TextFiled
-            AppPhoneTextFiled(controller: _controller, title: 'enterPhone'),
-            SizedBox(
-              height: 30.h,
-            ),
+              /// Phone Number TextFiled
+              AppPhoneTextFiled(controller: _controller, title: 'enterPhone'),
+              SizedBox(
+                height: 30.h,
+              ),
 
-            /// Continue Button
-            AppButton(
-              onClick: () {
-                _controller.onLoginClick();
-              },
-              title: 'login'.tr,
-              color: context.theme.primaryColor,
-              state: _controller.apiState
-            ),
-          ],
+              /// Continue Button
+              AppButton(
+                onClick: () {
+                  _controller.onLoginClick();
+                },
+                title: 'login'.tr,
+                color: context.theme.primaryColor,
+                state: _controller.apiState
+              ),
+            ],
+          ),
         ),
       ),
     );

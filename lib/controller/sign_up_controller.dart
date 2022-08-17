@@ -1,9 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loan_app/api/api_controller/auth_api.dart';
+import 'package:loan_app/api/api_helper.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
+import 'package:loan_app/model/api_result.dart';
 import 'package:loan_app/model/api_state.dart';
+import 'package:loan_app/model/response/sign_up_response.dart';
 import 'package:loan_app/model/user.dart';
 
 import '../app_setting/app_route.dart';
@@ -17,6 +24,7 @@ class SignUpController extends GetxController {
   ApiState apiState = ApiState(isLoading: false.obs, isError: false.obs);
   bool validate = true;
   AuthApi _authApi = AuthApi();
+  late ApiResult apiResult;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -25,7 +33,7 @@ class SignUpController extends GetxController {
     lastName = TextEditingController();
     email = TextEditingController();
     birthdate = TextEditingController();
-    address = TextEditingController();
+    address = TextEditingController(text: SharedPreferencesController().getAddress);
     super.onInit();
   }
 
@@ -48,7 +56,7 @@ class SignUpController extends GetxController {
       lastDate: DateTime(DateTime.now().year),
     );
     if (dateTime != null) {
-      birthdate.text = DateFormat('dd / MM / yyyy').format(dateTime);
+      birthdate.text = DateFormat('yyyy-MM-dd').format(dateTime);
       update();
     }
   }
@@ -58,19 +66,20 @@ class SignUpController extends GetxController {
   }
 
   Future<void> onSignUpClick() async {
-    address.text = SharedPreferencesController().getAddress;
+    // address.text = SharedPreferencesController().getAddress;
     if(formKey.currentState!.validate()){
       apiState.isLoading.value = true;
-      User signUp = User(firstName: firstName.text, lastName: lastName.text, address: address.text, email: email.text);
-      bool state = await _authApi.signUp(signUp);
+      User user = User(firstName: firstName.text, lastName: lastName.text, address: address.text, email: email.text, birthdate: birthdate.text, latitude: SharedPreferencesController().latitude, longitude: SharedPreferencesController().longitude, image: '');
+      apiResult = await _authApi.signUp(user);
       apiState.isLoading.value = false;
-      if (state) {
+      if (apiResult.status == ApiStatus.success) {
+        SignUpResponse response = SignUpResponse.fromJson(apiResult.data);
+        SharedPreferencesController().setCurrentUserData2(response.data!);
         Get.toNamed(Routes.mainScreen);
       } else {
         apiState.isError.value = true;
       }
     }
-
   }
 
 }

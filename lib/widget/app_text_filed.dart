@@ -13,6 +13,7 @@ class AppTextFiled extends StatelessWidget {
   late IconData? icon;
   late int minLine;
   late TextInputType type;
+  Function(String value)? onChange = (value){};
   late GetxController getxController;
   Function()? onClick = (){};
   Function(String? value) validator;
@@ -26,6 +27,7 @@ class AppTextFiled extends StatelessWidget {
     this.type = TextInputType.text,
     this.minLine = 1,
     this.onClick,
+    this.onChange,
     required this.validator,
   });
 
@@ -37,7 +39,7 @@ class AppTextFiled extends StatelessWidget {
         Text(
           title.tr,
           style: TextStyle(
-            color: AppColor.black,
+            color: context.theme.textTheme.headline1!.color,
             fontFamily: AppFont.fontFamily,
             fontSize: AppFont.medium,
           ),
@@ -49,7 +51,7 @@ class AppTextFiled extends StatelessWidget {
             height: 65.h,
             child: TextFormField(
               controller: controller,
-              cursorColor: AppColor.blue,
+              cursorColor: context.theme.primaryColor,
               enabled: isEnable,
               minLines: minLine,
               maxLines: minLine + 1,
@@ -57,6 +59,7 @@ class AppTextFiled extends StatelessWidget {
               style: TextStyle(color: context.theme.textTheme.headline1!.color, fontFamily: AppFont.fontFamily),
               textInputAction: TextInputAction.next,
               validator: (value) => validator(value),
+              onChanged: (value) => onChange == null  ? (value){} : onChange!(value),
               decoration: InputDecoration(
                 counter: SizedBox(),
                 prefixIcon: icon != null ? Icon(icon) : null,
@@ -70,7 +73,7 @@ class AppTextFiled extends StatelessWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10).r,
-                  borderSide: BorderSide(color: AppColor.blue),
+                  borderSide: BorderSide(color: context.theme.primaryColor),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10).r,
@@ -86,7 +89,7 @@ class AppTextFiled extends StatelessWidget {
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10).r,
-                  borderSide: BorderSide(color: AppColor.blue),
+                  borderSide: BorderSide(color: context.theme.primaryColor),
                 ),
               ),
             ),

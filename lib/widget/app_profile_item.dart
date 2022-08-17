@@ -22,18 +22,18 @@ class AppProfileItem extends StatelessWidget {
         padding: EdgeInsets.all(10).r,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColor.blue2,
+          color: context.theme.textTheme.headline3!.color,
         ),
         child: Icon(
           icon,
-          color: AppColor.blue,
+          color: context.theme.iconTheme.color,
         ),
       ),
       horizontalTitleGap: 25.w,
       title: Text(
         title.tr,
         style: TextStyle(
-          color: AppColor.black,
+          color: context.theme.textTheme.headline1!.color,
           fontFamily: AppFont.fontFamily,
           fontSize: AppFont.medium,
         ),

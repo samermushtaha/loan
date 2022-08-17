@@ -35,14 +35,14 @@ class LastAmount extends StatelessWidget {
             fontWeight: FontWeight.bold
           ),
         ),
-        Text(
-          date,
-          style: TextStyle(
-            color: context.theme.textTheme.subtitle1!.color,
-            fontFamily: AppFont.fontFamily,
-            fontSize: AppFont.medium,
-          ),
-        ),
+        // Text(
+        //   date,
+        //   style: TextStyle(
+        //     color: context.theme.textTheme.subtitle1!.color,
+        //     fontFamily: AppFont.fontFamily,
+        //     fontSize: AppFont.medium,
+        //   ),
+        // ),
       ],
     );
   }

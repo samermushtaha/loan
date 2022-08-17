@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/api/api_controller/auth_api.dart';
+import 'package:loan_app/api/api_helper.dart';
+import 'package:loan_app/app_setting/app_local_storage.dart';
 import 'package:loan_app/app_setting/app_route.dart';
+import 'package:loan_app/model/api_result.dart';
 
 import '../model/profile_item.dart';
 
 class ProfileController extends GetxController{
   static AuthApi _authApi = AuthApi();
-
-
+  static late ApiResult apiResult;
 
   static Future<void> onLogOutClick() async{
-    bool states = await _authApi.logOut();
-    if(states){
+    apiResult = await _authApi.logOut();
+    if(apiResult.status == ApiStatus.success){
+      SharedPreferencesController().sharedPreferences.remove('token');
+      SharedPreferencesController().sharedPreferences.remove('currentUser');
       Get.offNamed(Routes.signInScreen);
     }
   }

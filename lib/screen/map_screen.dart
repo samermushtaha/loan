@@ -25,7 +25,10 @@ class MapScreen extends StatelessWidget {
         backgroundColor: context.theme.appBarTheme.backgroundColor,
         automaticallyImplyLeading: true,
         actions: [
-          IconButton(onPressed: (){_controller.onSelectAddressClick();}, icon: Icon(Icons.check))
+          IconButton(onPressed: (){
+            _controller.onSelectAddressClick();
+            Get.back();
+            }, icon: Icon(Icons.check))
         ],
       ),
       body: GetBuilder<MapController>(builder: (controller) {

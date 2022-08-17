@@ -6,12 +6,19 @@ import 'package:loan_app/app_setting/app_color.dart';
 import 'package:loan_app/app_setting/app_font.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
 import 'package:loan_app/app_setting/app_route.dart';
+import 'package:loan_app/controller/home_controller.dart';
+import 'package:loan_app/model/response/all_user_response.dart';
+import 'package:loan_app/widget/app_error.dart';
 import 'package:loan_app/widget/last_amount.dart';
 import 'package:loan_app/widget/last_load_card.dart';
-import 'package:loan_app/widget/user_card.dart';
+import 'package:loan_app/widget/app_user_card.dart';
+
+import '../widget/app_api_states.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  HomeController _controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: context.theme.primaryColor,
       appBar: AppBar(
         title: Text(
-          'welcome'.tr + SharedPreferencesController().firstName,
+          'welcome'.tr + SharedPreferencesController().currentUser.firstName.toString(),
           style: TextStyle(
             color: context.theme.textTheme.headline2!.color,
             fontFamily: AppFont.fontFamily,
@@ -49,7 +56,7 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 100.h),
+                  SizedBox(height: 80.h),
 
                   /// Header List
                   Row(
@@ -79,19 +86,53 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   /// User List
-                  Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        return UserCard();
-                      },
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 10.h,
-                        );
-                      },
-                      itemCount: 3,
-                    ),
-                  )
+                  GetX<HomeController>(builder: (controller) {
+                    return Expanded(
+                      child: AppApiStates(
+                        apiState: controller.userApiState,
+                        list: controller.allUsers,
+                        loading: Container(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: context.theme.primaryColor,
+                            ),
+                          ),
+                        ),
+                        success: ListView.separated(
+                          itemBuilder: (context, index) {
+                            return AppUserCard(
+                              UserCard(
+                                phoneNumber: controller.allUsers[index].firstName == null ? '' : controller.allUsers[index].phoneNumber,
+                                image: controller.allUsers[index].image,
+                                firstName: controller.allUsers[index].firstName == null ? controller.allUsers[index].phoneNumber : controller.allUsers[index].firstName,
+                                lastName: controller.allUsers[index].lastName == null ? '' : controller.allUsers[index].lastName,
+                              ),
+                                (){Get.toNamed(Routes.loanDetailsScreen, arguments: [controller.allUsers[index].phoneNumber]);}
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 10.h,
+                            );
+                          },
+                          itemCount: controller.allUsers.length,
+                        ),
+                        empty: Container(
+                          child: Center(
+                            child: Text(
+                              'Empty',
+                              style: TextStyle(
+                                color: context.theme.textTheme.headline1!.color,
+                                fontFamily: AppFont.fontFamily,
+                                fontSize: AppFont.medium,
+                              ),
+                            ),
+                          ),
+                        ),
+                        error: AppError(onClick: (){_controller.getAllUser(); print('object');}),
+                      ),
+                    );
+                  })
                 ],
               ),
             ),
@@ -100,7 +141,7 @@ class HomeScreen extends StatelessWidget {
           /// Last Loan Cart
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40).r,
-            child: LastLoanCard()
+            child: LastLoanCard(controller: _controller)
           ),
         ],
       ),

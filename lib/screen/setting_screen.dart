@@ -15,16 +15,17 @@ class SettingScreen extends StatelessWidget {
   SettingScreen({Key? key}) : super(key: key);
 
   SettingController _controller = Get.find();
+  ThemeController controller2 = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.blue,
+      backgroundColor: context.theme.primaryColor,
       appBar: AppBar(
         title: Text(
           'setting'.tr,
           style: TextStyle(
-              color: AppColor.textColor,
+              color: context.theme.textTheme.headline2!.color,
               fontFamily: AppFont.fontFamily,
               fontSize: AppFont.veryLarge),
         ),
@@ -38,7 +39,7 @@ class SettingScreen extends StatelessWidget {
           },
           icon: Icon(
             Icons.arrow_back,
-            color: AppColor.white,
+            color: context.theme.textTheme.headline2!.color,
           ),
         ),
       ),
@@ -65,7 +66,7 @@ class SettingScreen extends StatelessWidget {
                 icon: Icons.dark_mode,
                 title: 'setting_item_2',
                 onClick: () {
-
+                  themeBottomSheet(context);
                 }),
           ],
         ),
@@ -75,7 +76,7 @@ class SettingScreen extends StatelessWidget {
 
   Future<void> themeBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
-      backgroundColor: AppColor.white,
+      backgroundColor: context.theme.backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(25).r,
@@ -93,14 +94,14 @@ class SettingScreen extends StatelessWidget {
                 itemCount: controller.themeList.length,
                 itemBuilder: (context, index) {
                   return RadioListTile<String>(
-                    activeColor: AppColor.blue,
+                    activeColor: context.theme.primaryColor,
                     title: Text(
                       controller.themeList[index].title.tr,
                       style: TextStyle(
                         color: controller.selectedTheme ==
                                 controller.themeList[index].value
-                            ? AppColor.blue
-                            : AppColor.black,
+                            ? context.theme.primaryColor
+                            : context.theme.textTheme.headline1!.color,
                         fontFamily: AppFont.fontFamily,
                         fontSize: AppFont.large,
                       ),
@@ -114,7 +115,9 @@ class SettingScreen extends StatelessWidget {
                         ThemeController.to.setThemeMode(ThemeMode.light);
                       }else{
                         SharedPreferencesController().sharedPreferences.remove('appTheme');
+                        controller2.getThemeModeFromPreferences();
                       }
+                      Get.back();
                     },
                   );
                 }),
@@ -126,7 +129,7 @@ class SettingScreen extends StatelessWidget {
 
   Future<void> languageBottomSheet(BuildContext context) {
     return showModalBottomSheet<void>(
-      backgroundColor: AppColor.white,
+      backgroundColor: context.theme.backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(25).r,
@@ -144,14 +147,14 @@ class SettingScreen extends StatelessWidget {
                 itemCount: controller.languageList.length,
                 itemBuilder: (context, index) {
                   return RadioListTile<String>(
-                    activeColor: AppColor.blue,
+                    activeColor: context.theme.primaryColor,
                     title: Text(
                       controller.languageList[index].title.tr,
                       style: TextStyle(
                         color: controller.selectedLanguage ==
                                 controller.languageList[index].value
-                            ? AppColor.blue
-                            : AppColor.black,
+                            ? context.theme.primaryColor
+                            : context.theme.textTheme.headline1!.color,
                         fontFamily: AppFont.fontFamily,
                         fontSize: AppFont.large,
                       ),
@@ -163,6 +166,7 @@ class SettingScreen extends StatelessWidget {
                       Get.updateLocale(Locale(value.toString()));
                       controller.selectedLanguage = value.toString();
                       controller.update();
+                      Get.back();
                     },
                   );
                 }),

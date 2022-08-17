@@ -13,7 +13,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.blue,
+      backgroundColor: context.theme.primaryColor,
       appBar: AppBar(
         title: Text(
           'notification'.tr,
@@ -34,22 +34,7 @@ class NotificationScreen extends StatelessWidget {
             topRight: Radius.circular(50),
             topLeft: Radius.circular(50),
           ).r,
-          color: AppColor.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50).r,
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return AppNotification(
-                image: 'images/img_person.png',
-                title: 'Samer Mushtaha',
-                subTitle: 'Lorem Ipsum is simply dummy text of the printing',
-                date: '13/12/2001',
-                seen: true,
-              );
-            },
-            itemCount: 3,
-          ),
+          color: context.theme.backgroundColor,
         ),
       ),
     );

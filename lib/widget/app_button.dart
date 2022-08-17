@@ -12,24 +12,38 @@ class AppButton extends StatelessWidget {
   late String title;
   ApiState? state;
 
-  AppButton({
-    required this.onClick,
-    required this.title,
-    required this.color,
-    this.state
-  });
+  AppButton(
+      {required this.onClick,
+      required this.title,
+      required this.color,
+      this.state});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: state != null ? state!.isLoading.value ? null : (){onClick();} : (){onClick();},
+      onPressed: state != null
+          ? state!.isLoading.value
+              ? null
+              : () {
+                  onClick();
+                }
+          : () {
+              onClick();
+            },
       child: state != null
           ? Obx(
               () => state!.isLoading.value
-                  ? CircularProgressIndicator(color: context.theme.textTheme.headline2!.color,)
+                  ? Text(
+                      'Loading...',
+                      style: TextStyle(
+                        color: context.theme.textTheme.headline2!.color,
+                        fontSize: AppFont.medium,
+                        fontFamily: AppFont.fontFamily,
+                      ),
+                    )
                   : state!.isError.value
                       ? Text(
-                          'Error',
+                          'Error, try again',
                           style: TextStyle(
                             color: context.theme.textTheme.headline2!.color,
                             fontSize: AppFont.medium,
@@ -54,8 +68,7 @@ class AppButton extends StatelessWidget {
               ),
             ),
       style: ElevatedButton.styleFrom(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r),
         primary: color,
         minimumSize: Size(double.infinity, 50.h),
         elevation: 0,

@@ -19,10 +19,12 @@ class MainController extends GetxController{
       NavigationBarItem(icon: Icons.home_outlined, title: 'home'),
       NavigationBarItem(icon: Icons.person_outline, title: 'profile'),
     ];
+
     pages = [
       HomeScreen(),
       ProfileScreen(),
     ];
+
     super.onInit();
   }
 

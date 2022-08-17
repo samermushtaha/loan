@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:loan_app/app_setting/app_local_storage.dart';
 import 'package:loan_app/widget/app_profile_item.dart';
 
+import '../api/api_setting.dart';
 import '../app_setting/app_color.dart';
 import '../app_setting/app_font.dart';
 import '../controller/profile_controller.dart';
@@ -16,12 +18,12 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.blue,
+      backgroundColor: context.theme.primaryColor,
       appBar: AppBar(
         title: Text(
           'profile'.tr,
           style: TextStyle(
-              color: AppColor.textColor,
+              color: context.theme.textTheme.headline2!.color,
               fontFamily: AppFont.fontFamily,
               fontSize: AppFont.veryLarge),
         ),
@@ -38,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
             topRight: Radius.circular(50),
             topLeft: Radius.circular(50),
           ).r,
-          color: AppColor.white,
+          color: context.theme.backgroundColor,
         ),
         child: Column(
           children: [
@@ -50,15 +52,15 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CircleAvatar(
-                      child: Image.asset('images/img_person.png'),
+                      backgroundImage: SharedPreferencesController().currentUser.image.isNotEmpty ? NetworkImage(ApiSetting.BASE_URL + '/' + SharedPreferencesController().currentUser.image) : AssetImage('images/img_person.png') as ImageProvider,
                       radius: 50.r,
-                      backgroundColor: AppColor.white,
+                      backgroundColor: context.theme.backgroundColor,
                     ),
                     SizedBox(height: 5),
                     Text(
-                      'Samer Mushtaha',
+                      SharedPreferencesController().currentUser.firstName + ' ' + SharedPreferencesController().currentUser.lastName,
                       style: TextStyle(
-                        color: AppColor.black,
+                        color: context.theme.textTheme.headline1!.color,
                         fontFamily: AppFont.fontFamily,
                         fontSize: AppFont.large,
                         fontWeight: FontWeight.bold,
@@ -81,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
               },
               separatorBuilder: (context, index) {
                 return Divider(
-                  color: AppColor.blue2,
+                  color: context.theme.backgroundColor,
                 );
               },
               itemCount: _controller.list.length,

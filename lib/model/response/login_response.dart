@@ -1,17 +1,19 @@
-class SignUpResponse {
+import '../user.dart';
+
+class LoginResponse {
   late String message;
   Data? data;
   late bool success;
 
-  SignUpResponse.fromJson(Map<String, dynamic> json) {
-    message = json['Message'];
+  LoginResponse.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     success = json['success'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Message'] = this.message;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -21,62 +23,69 @@ class SignUpResponse {
 }
 
 class Data {
-  int? id;
-  String? phoneNumber;
-  String? activationCode;
-  String? firstName;
-  String? lastName;
-  String? email;
-  String? address;
-  String? image;
-  String? emailVerifiedAt;
-  String? createdAt;
-  String? updatedAt;
-  String? deletedAt;
-
-  Data(
-      {this.id,
-        this.phoneNumber,
-        this.activationCode,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.address,
-        this.image,
-        this.emailVerifiedAt,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
+  late String token;
+  late int draft;
+  User? user;
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    phoneNumber = json['phone_number'];
-    activationCode = json['activation_code'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    email = json['email'];
-    address = json['address'];
-    image = json['image'];
-    emailVerifiedAt = json['email_verified_at'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    deletedAt = json['deleted_at'];
+    token = json['token'];
+    draft = json['draft'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['token'] = this.token;
+    data['draft'] = this.draft;
+    return data;
+  }
+}
+
+class Userss {
+  String? phoneNumber;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? dateOfBirth;
+  String? addressLine1;
+  String? addressLine2;
+  String? address;
+  String? image;
+
+  Userss(
+      {this.phoneNumber,
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.dateOfBirth,
+        this.addressLine1,
+        this.addressLine2,
+        this.address,
+        this.image});
+
+  Userss.fromJson(Map<String, dynamic> json) {
+    phoneNumber = json['phone_number'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    email = json['email'];
+    dateOfBirth = json['date_of_birth'];
+    addressLine1 = json['address_line1'];
+    addressLine2 = json['address_line2'];
+    address = json['address'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['phone_number'] = this.phoneNumber;
-    data['activation_code'] = this.activationCode;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
     data['email'] = this.email;
+    data['date_of_birth'] = this.dateOfBirth;
+    data['address_line1'] = this.addressLine1;
+    data['address_line2'] = this.addressLine2;
     data['address'] = this.address;
     data['image'] = this.image;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }

@@ -19,12 +19,12 @@ class AddLoanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.blue,
+      backgroundColor: context.theme.primaryColor,
       appBar: AppBar(
         title: Text(
           'request_loan'.tr,
           style: TextStyle(
-              color: AppColor.textColor,
+              color: context.theme.textTheme.headline2!.color,
               fontFamily: AppFont.fontFamily,
               fontSize: AppFont.veryLarge),
         ),
@@ -32,7 +32,15 @@ class AddLoanScreen extends StatelessWidget {
         toolbarHeight: 60.h,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back, color: AppColor.white,),),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: context.theme.textTheme.headline2!.color,
+          ),
+        ),
       ),
       body: Container(
         height: 1.sh,
@@ -42,66 +50,72 @@ class AddLoanScreen extends StatelessWidget {
             topRight: Radius.circular(50),
             topLeft: Radius.circular(50),
           ).r,
-          color: AppColor.white,
+          color: context.theme.backgroundColor,
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: 50.h),
-              AppTextFiled(
-                controller: _controller.phone,
-                title: 'phone',
-                hint: '+972591234567',
-                icon: Icons.call,
-                isEnable: false,
-                validator: (value){
-                  if(value!.isEmpty){
-                    return 'Required';
-                  }
-                },
-                onClick: (){},
-              ),              SizedBox(height: 15.h),
-              AppTextFiled(
-                controller: _controller.deadline,
-                title: 'deadline',
-                hint: 'dd/mm/yyyy',
-                icon: Icons.calendar_month_outlined,
-                isEnable: false,
-                validator: (value){
-                  if(value!.isEmpty){
-                    return 'Required';
-                  }
-                },
-                onClick: (){},
-              ),
-              AppTextFiled(
-                controller: _controller.amount,
-                title: 'amount',
-                hint: '100',
-                icon: Icons.attach_money,
-                type: TextInputType.number,
-                validator: (value){
-                  if(value!.isEmpty){
-                    return 'Required';
-                  }
-                },
-              ),
-              AppTextFiled(
-                controller: _controller.note,
-                title: 'note',
-                hint: 'note_hint',
-                minLine: 3,
-                validator: (value){
-                  if(value!.isEmpty){
-                    return 'Required';
-                  }
-                },
-              ),
+              Form(
+                  key: _controller.formKey,
+                  child: Column(
+                    children: [
+                      AppTextFiled(
+                        controller: _controller.phone,
+                        title: 'phone',
+                        hint: '+972591234567',
+                        type: TextInputType.phone,
+                        icon: Icons.call,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Required';
+                          }
+                        },
+                      ),
+                      AppTextFiled(
+                        controller: _controller.deadline,
+                        title: 'deadline',
+                        hint: 'dd/mm/yyyy',
+                        icon: Icons.calendar_month_outlined,
+                        isEnable: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Required';
+                          }
+                        },
+                        onClick: () {_controller.onSelectDateTimeClick(context);},
+                      ),
+                      AppTextFiled(
+                        controller: _controller.amount,
+                        title: 'amount',
+                        hint: '100',
+                        icon: Icons.attach_money,
+                        type: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Required';
+                          }
+                        },
+                      ),
+                      AppTextFiled(
+                        controller: _controller.note,
+                        title: 'note',
+                        hint: 'note_hint',
+                        minLine: 3,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Required';
+                          }
+                        },
+                      ),
+                    ],
+                  )),
               SizedBox(height: 20.h),
               AppButton(
-                onClick: () {},
+                onClick: () {_controller.onAddLoanClick();},
                 title: 'request',
-                color: AppColor.blue,
+                color: context.theme.primaryColor,
+                state: _controller.apiState,
               ),
             ],
           ),

@@ -4,7 +4,7 @@ import '../model/radio_item.dart';
 
 class SettingController extends GetxController {
   List<RadioItem> themeList = [
-    RadioItem(title: 'system_default', value: 'default'),
+    RadioItem(title: 'system_default', value: ''),
     RadioItem(title: 'light', value: 'light'),
     RadioItem(title: 'dark', value: 'dark'),
   ];

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,16 +10,13 @@ class MapController extends GetxController {
   late CameraPosition cameraPosition;
   late GoogleMapController googleMapController;
   Set<Marker> mark = <Marker>[].toSet();
-  late LatLng currentLatLng = const LatLng(48.8566, 2.3522);
-  String selectedLocation = '';
-  late LatLng latLnge;
-  // late List<Address> addresses;
-  // late Address address;
+  late LatLng currentLatLng;
+  late LatLng latLong;
 
   @override
-  void onInit() {
-    cameraPosition = CameraPosition(target: LatLng(31.350556, 34.452679), zoom: 16);
-    _determinePosition();
+  void onInit() async {
+    cameraPosition = CameraPosition(target: LatLng(31.5298725, 34.4557746), zoom: 16);
+    await getCurrentLocation();
     super.onInit();
   }
 
@@ -30,7 +30,7 @@ class MapController extends GetxController {
     update();
   }
 
-  Future<void> _determinePosition() async {
+  Future<void> getCurrentLocation() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -41,30 +41,41 @@ class MapController extends GetxController {
     print(position.latitude.toString() + "   " + position.longitude.toString());
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: currentLatLng, zoom: 16),
+        cameraPosition = CameraPosition(target: currentLatLng, zoom: 16),
       ),
     );
+    print('getCurrentLocation');
     update();
   }
 
-  void onMapClick(LatLng latLng){
+  void onMapClick(LatLng latLng) {
     addMarker(latLng);
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: latLng, zoom: 16),
       ),
     );
-    latLnge = latLng;
-    selectedLocation = latLng.toString();
+    latLong = latLng;
   }
 
-  Future<void> onSelectAddressClick() async{
-    // final coordinates = new Coordinates(latLnge.latitude, latLnge.longitude);
-    // addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    // address = addresses.first;
-    // print("${address.featureName} : ${address.addressLine}");
-    SharedPreferencesController().setAddress(selectedLocation);
-    Get.back();
+  Future<String> getAddressFromLatLong(LatLng position) async {
+    List placeMarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placeMarks);
+    Placemark place = placeMarks[0];
+    return '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
   }
 
+  Future<void> onSelectAddressClick() async {
+    if (mark.isEmpty) {
+      latLong = currentLatLng;
+    }
+    String address = await getAddressFromLatLong(latLong);
+
+    SharedPreferencesController().setAddress(address);
+    SharedPreferencesController().setLatitude('dd');
+    SharedPreferencesController().setLongitude('ddd');
+    log(address);
+
+  }
 }

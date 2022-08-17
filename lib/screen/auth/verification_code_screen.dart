@@ -85,7 +85,7 @@ class VerificationCodeScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {_controller.onResendCodeClick();},
                   child: Text(
                     'resent'.tr,
                     style: TextStyle(

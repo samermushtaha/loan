@@ -70,7 +70,7 @@ class AppRoute {
     GetPage(
       name: Routes.loanDetailsScreen,
       page: () => LoanDetailsScreen(),
-      binding: Binding.loanDetailsController,
+      // binding: Binding.loanDetailsController,
     ),
     GetPage(
       name: Routes.notificationScreen,
@@ -120,9 +120,9 @@ class Binding {
   static final addLoanController = BindingsBuilder(() {
     Get.put(AddLoanController());
   });
-  static final loanDetailsController = BindingsBuilder(() {
-    Get.put(LoanDetailsScreen());
-  });
+  // static final loanDetailsController = BindingsBuilder(() {
+  //   Get.put(LoanDetailsScreen());
+  // });
   static final notificationController = BindingsBuilder(() {
     Get.put(NotificationController());
   });
