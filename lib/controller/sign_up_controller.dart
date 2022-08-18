@@ -26,6 +26,7 @@ class SignUpController extends GetxController {
   AuthApi _authApi = AuthApi();
   late ApiResult apiResult;
   final formKey = GlobalKey<FormState>();
+  String? selectedAddress;
 
   @override
   void onInit() {
@@ -66,7 +67,7 @@ class SignUpController extends GetxController {
   }
 
   Future<void> onSignUpClick() async {
-    // address.text = SharedPreferencesController().getAddress;
+    address.text = SharedPreferencesController().getAddress;
     if(formKey.currentState!.validate()){
       apiState.isLoading.value = true;
       User user = User(firstName: firstName.text, lastName: lastName.text, address: address.text, email: email.text, birthdate: birthdate.text, latitude: SharedPreferencesController().latitude, longitude: SharedPreferencesController().longitude, image: '');

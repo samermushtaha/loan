@@ -40,7 +40,7 @@ class LastLoanCard extends StatelessWidget {
                         fontFamily: AppFont.fontFamily,
                         fontSize: AppFont.large),
                   ),
-              ) : controller.loanApiState.isError.value ? Center(child: Text('Error', style: TextStyle(
+              ) : controller.loanApiState.isError.value ? Center(child: Text('Some thing went wrong', style: TextStyle(
               color: context.theme.textTheme.headline1!.color,
               fontFamily: AppFont.fontFamily,
               fontSize: AppFont.large),))

@@ -44,7 +44,7 @@ class AppColor{
       subtitle1: TextStyle(color: _lightGray),
     ),
     iconTheme: IconThemeData(color: _lightBlue),
-    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: _lightGray),
+    // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: _lightGray),
   );
 
   static final dark = ThemeData.dark().copyWith(

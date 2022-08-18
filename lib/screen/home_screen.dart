@@ -26,7 +26,8 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: context.theme.primaryColor,
       appBar: AppBar(
         title: Text(
-          'welcome'.tr + SharedPreferencesController().currentUser.firstName.toString(),
+          'welcome'.tr +
+              SharedPreferencesController().currentUser.firstName.toString(),
           style: TextStyle(
             color: context.theme.textTheme.headline2!.color,
             fontFamily: AppFont.fontFamily,
@@ -38,112 +39,137 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: context.theme.appBarTheme.backgroundColor,
         actions: [
-          IconButton(onPressed: () {Get.toNamed(Routes.notificationScreen);}, icon: Icon(Icons.notifications_none, color: context.theme.textTheme.headline2!.color,))
+          IconButton(
+              onPressed: () {
+                Get.toNamed(Routes.notificationScreen);
+              },
+              icon: Icon(
+                Icons.notifications_none,
+                color: context.theme.textTheme.headline2!.color,
+              ))
         ],
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 70).r,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20).r,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50),
-                  topLeft: Radius.circular(50),
-                ).r,
-                color: context.theme.backgroundColor,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 80.h),
+      body: RefreshIndicator(
+        onRefresh: () {return _controller.onRefreshing();},
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 70).r,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20).r,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(50),
+                    topLeft: Radius.circular(50),
+                  ).r,
+                  color: context.theme.backgroundColor,
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 80.h),
 
-                  /// Header List
-                  Row(
-                    children: [
-                      Text(
-                        'users'.tr,
-                        style: TextStyle(
-                          color: context.theme.textTheme.headline1!.color,
-                          fontFamily: AppFont.fontFamily,
-                          fontSize: AppFont.large,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Spacer(),
-                      TextButton(
-                        onPressed: () {Get.toNamed(Routes.allUserScreen);},
-                        child: Text(
-                          'view_all'.tr,
+                    /// Header List
+                    Row(
+                      children: [
+                        Text(
+                          'users'.tr,
                           style: TextStyle(
-                            color: context.theme.primaryColor,
+                            color: context.theme.textTheme.headline1!.color,
                             fontFamily: AppFont.fontFamily,
-                            fontSize: AppFont.small,
+                            fontSize: AppFont.large,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-
-                  /// User List
-                  GetX<HomeController>(builder: (controller) {
-                    return Expanded(
-                      child: AppApiStates(
-                        apiState: controller.userApiState,
-                        list: controller.allUsers,
-                        loading: Container(
-                          child: Center(
-                            child: CircularProgressIndicator(
+                        Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            Get.toNamed(Routes.allUserScreen);
+                          },
+                          child: Text(
+                            'view_all'.tr,
+                            style: TextStyle(
                               color: context.theme.primaryColor,
+                              fontFamily: AppFont.fontFamily,
+                              fontSize: AppFont.small,
                             ),
                           ),
-                        ),
-                        success: ListView.separated(
-                          itemBuilder: (context, index) {
-                            return AppUserCard(
-                              UserCard(
-                                phoneNumber: controller.allUsers[index].firstName == null ? '' : controller.allUsers[index].phoneNumber,
-                                image: controller.allUsers[index].image,
-                                firstName: controller.allUsers[index].firstName == null ? controller.allUsers[index].phoneNumber : controller.allUsers[index].firstName,
-                                lastName: controller.allUsers[index].lastName == null ? '' : controller.allUsers[index].lastName,
-                              ),
-                                (){Get.toNamed(Routes.loanDetailsScreen, arguments: [controller.allUsers[index].phoneNumber]);}
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 10.h,
-                            );
-                          },
-                          itemCount: controller.allUsers.length,
-                        ),
-                        empty: Container(
-                          child: Center(
-                            child: Text(
-                              'Empty',
-                              style: TextStyle(
-                                color: context.theme.textTheme.headline1!.color,
-                                fontFamily: AppFont.fontFamily,
-                                fontSize: AppFont.medium,
+                        )
+                      ],
+                    ),
+
+                    /// User List
+                    GetX<HomeController>(builder: (controller) {
+                      return Expanded(
+                        child: AppApiStates(
+                          apiState: controller.userApiState,
+                          list: controller.allUsers,
+                          loading: Container(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: context.theme.primaryColor,
                               ),
                             ),
                           ),
+                          success: ListView.separated(
+                            itemBuilder: (context, index) {
+                              return AppUserCard(
+                                  UserCard(
+                                    phoneNumber: controller
+                                                .allUsers[index].firstName ==
+                                            null
+                                        ? ''
+                                        : controller.allUsers[index].phoneNumber,
+                                    image: controller.allUsers[index].image,
+                                    firstName: controller
+                                                .allUsers[index].firstName ==
+                                            null
+                                        ? controller.allUsers[index].phoneNumber
+                                        : controller.allUsers[index].firstName,
+                                    lastName:
+                                        controller.allUsers[index].lastName ==
+                                                null
+                                            ? ''
+                                            : controller.allUsers[index].lastName,
+                                  ), () {
+                                Get.toNamed(Routes.loanDetailsScreen, arguments: [
+                                  controller.allUsers[index].phoneNumber
+                                ]);
+                              });
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: 10.h,
+                              );
+                            },
+                            itemCount: controller.allUsers.length,
+                          ),
+                          empty: Container(
+                            child: Center(
+                              child: Text(
+                                'Empty',
+                                style: TextStyle(
+                                  color: context.theme.textTheme.headline1!.color,
+                                  fontFamily: AppFont.fontFamily,
+                                  fontSize: AppFont.medium,
+                                ),
+                              ),
+                            ),
+                          ),
+                          error: Container()
                         ),
-                        error: AppError(onClick: (){_controller.getAllUser(); print('object');}),
-                      ),
-                    );
-                  })
-                ],
+                      );
+                    })
+                  ],
+                ),
               ),
             ),
-          ),
 
-          /// Last Loan Cart
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40).r,
-            child: LastLoanCard(controller: _controller)
-          ),
-        ],
+            /// Last Loan Cart
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40).r,
+                child: LastLoanCard(controller: _controller)),
+          ],
+        ),
       ),
     );
   }

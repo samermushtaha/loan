@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
+import 'package:loan_app/app_setting/app_route.dart';
 
 class MapController extends GetxController {
   late CameraPosition cameraPosition;
@@ -71,11 +72,9 @@ class MapController extends GetxController {
       latLong = currentLatLng;
     }
     String address = await getAddressFromLatLong(latLong);
-
     SharedPreferencesController().setAddress(address);
-    SharedPreferencesController().setLatitude('dd');
-    SharedPreferencesController().setLongitude('ddd');
-    log(address);
-
+    SharedPreferencesController().setLatitude(latLong.latitude.toString());
+    SharedPreferencesController().setLongitude(latLong.longitude.toString());
+    Get.back();
   }
 }

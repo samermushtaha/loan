@@ -20,6 +20,7 @@ class LoanDetailsController extends GetxController{
   LoanApi _loanApi = LoanApi();
   ApiState userApiState = ApiState(isLoading: false.obs, isError: false.obs);
   ApiState loanApiState = ApiState(isLoading: false.obs, isError: false.obs);
+  ApiState pagenationApiState = ApiState(isLoading: false.obs, isError: false.obs);
   late ApiResult apiResult;
   ScrollController scrollController = ScrollController();
   RxList<Transaction> list = <Transaction>[].obs;
@@ -49,8 +50,9 @@ class LoanDetailsController extends GetxController{
 
   void _scrollListener() async {
     if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
-      await Future.delayed(Duration(seconds: 5));
+      pagenationApiState.isLoading.value = true;
       apiResult = await _loanApi.getUserLoan(SelectUser(phoneNumber: phoneNumber, page: ++pageNo, pageSize: 6));
+      pagenationApiState.isLoading.value = false;
       if(apiResult.status == ApiStatus.success){
         Response2 response = Response2.fromJson(apiResult.data);
         if (response.data!.data!.isNotEmpty) {

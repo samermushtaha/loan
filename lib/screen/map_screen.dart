@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loan_app/app_setting/app_font.dart';
 import 'package:loan_app/controller/map_controller.dart';
 
@@ -27,7 +28,6 @@ class MapScreen extends StatelessWidget {
         actions: [
           IconButton(onPressed: (){
             _controller.onSelectAddressClick();
-            Get.back();
             }, icon: Icon(Icons.check))
         ],
       ),

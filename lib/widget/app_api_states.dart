@@ -23,6 +23,6 @@ class AppApiStates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return apiState.isLoading.value ? loading : apiState.isError.value ? error : list.isNotEmpty ? success : empty;
+    return Obx(() => apiState.isLoading.value ? loading : apiState.isError.value ? error : list.isNotEmpty ? success : empty);
   }
 }

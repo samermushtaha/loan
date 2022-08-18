@@ -49,7 +49,6 @@ mixin ApiHelper{
       }catch(e){
         if(e is DioError){
           if(e.response != null){
-            print(e);
             // AppHelper.showSnackBar(context, text: 'Server Error: Some thing went wrong', error: true);
             return ApiResult(status: ApiStatus.serverError, data: '');
           }else{
