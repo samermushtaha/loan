@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:loan_app/api/api_helper.dart';
 import 'package:loan_app/api/api_setting.dart';
 import 'package:loan_app/model/api_result.dart';
@@ -23,6 +22,10 @@ class AuthApi with ApiHelper {
 
   Future<ApiResult> editProfile(User user) async {
     return await getApiStatus(url: ApiSetting.EDIT_PROFILE, data: await user.body2(), options: option('POST'));
+  }
+
+  Future<ApiResult> getCurrentUser() async {
+    return await getApiStatus(url: ApiSetting.USER_DATA, options: option('GET'));
   }
 
   Future<ApiResult> logOut() async {

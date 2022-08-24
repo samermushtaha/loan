@@ -9,7 +9,7 @@ class User {
   late String longitude;
   late String latitude;
   late String birthdate;
-  late String image;
+  String? image;
   String? phoneNumber;
 
   User({
@@ -45,7 +45,7 @@ class User {
       'address_line1': latitude,
       'address_line2': longitude,
       'date_of_birth': birthdate,
-      'image': await MultipartFile.fromFile(image, filename: image.split('/').last),
+      'image': image != null ? await MultipartFile.fromFile(image!, filename: image!.split('/').last) : null,
     });
   }
 

@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:loan_app/app_setting/app_helper.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
 import 'package:loan_app/app_setting/app_route.dart';
 import 'package:loan_app/model/login.dart';
 import 'package:loan_app/model/phone.dart';
 import 'package:loan_app/model/response/verification_code_response.dart';
-import 'package:loan_app/model/user.dart';
-
 import '../api/api_controller/auth_api.dart';
 import '../api/api_helper.dart';
 import '../model/api_result.dart';
@@ -37,6 +32,7 @@ class VerificationCodeController extends GetxController{
 
   @override
   void onClose() {
+    print('close');
     for(TextEditingController controller in list){
       controller.dispose();
     }
@@ -79,11 +75,12 @@ class VerificationCodeController extends GetxController{
         if(loginResponse.data!.draft == 0){
           SharedPreferencesController().setCurrentUserData2(loginResponse.data!.user!);
           print(SharedPreferencesController().currentUser.image);
-          Get.toNamed(Routes.mainScreen);
+          Get.offNamed(Routes.mainScreen);
         }else{
           Get.toNamed(Routes.signUpScreen);
         }
       }else{
+        print(apiResult.data['message'] + ':' + verificationCode);
         apiState.isError.value = true;
       }
     } else {

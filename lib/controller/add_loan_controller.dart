@@ -6,7 +6,7 @@ import 'package:loan_app/api/api_controller/loan_api.dart';
 import 'package:loan_app/api/api_helper.dart';
 import 'package:loan_app/controller/home_controller.dart';
 import 'package:loan_app/model/api_result.dart';
-import 'package:loan_app/model/debitor.dart';
+import 'package:loan_app/model/debtor.dart';
 
 import '../model/api_state.dart';
 
@@ -17,8 +17,6 @@ class AddLoanController extends GetxController {
   late TextEditingController amount;
   late TextEditingController note;
   late String loanType;
-  late String selectedTime;
-  late String selectedDate;
   late DateTime selectedDateTime;
   ApiState apiState = ApiState(isLoading: false.obs, isError: false.obs);
   bool validate = true;
@@ -55,17 +53,11 @@ class AddLoanController extends GetxController {
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 10),
     );
-    if (date != null) {
-      selectedDate = date.toString();
-    }
 
     TimeOfDay? time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (time != null) {
-      selectedTime = time.toString();
-    }
 
     if(date != null && time != null){
       selectedDateTime = DateTime(
@@ -83,14 +75,14 @@ class AddLoanController extends GetxController {
   Future<void> onAddLoanClick() async {
     if (formKey.currentState!.validate()) {
       apiState.isLoading.value = true;
-      Debitor debitor = Debitor(amount: amount.text, deadline: deadline.text, note: note.text, phone: phone.text);
+      Debitor debtor = Debitor(amount: amount.text, deadline: deadline.text, note: note.text, phone: phone.text);
       late ApiResult apiResult;
       if (loanType == 'cr') {
-        apiResult = await loanApi.addDebitor(debitor);
+        apiResult = await loanApi.addDebtor(debtor);
       } else if (loanType == 'dr') {
-        apiResult = await loanApi.addCreditor(debitor);
+        apiResult = await loanApi.addCreditor(debtor);
       } else if(loanType == 'pay'){
-        apiResult = await loanApi.addPayment(debitor);
+        apiResult = await loanApi.addPayment(debtor);
       }
       apiState.isLoading.value = false;
       if (apiResult.status == ApiStatus.success) {

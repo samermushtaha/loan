@@ -16,7 +16,10 @@ class AllUserController extends GetxController{
   RxList<UserCard> allUsers = <UserCard>[].obs;
   RxList<UserCard> searchList = <UserCard>[].obs;
   UserApi _userApi = UserApi();
-  ApiState apiState = ApiState(isLoading: false.obs, isError: false.obs);
+  ApiState userApiState = ApiState(isLoading: false.obs, isError: false.obs);
+  ApiState searchApiState = ApiState(isLoading: false.obs, isError: false.obs);
+  ApiState pagenationApiState = ApiState(isLoading: false.obs, isError: false.obs);
+  ApiState pagenationApiState2 = ApiState(isLoading: false.obs, isError: false.obs);
   late TextEditingController search;
   late ScrollController scrollController;
   late ScrollController scrollController2;
@@ -33,31 +36,31 @@ class AllUserController extends GetxController{
   String selectedType = 'a';
 
   Future<void> getAllUser() async{
-    apiState.isLoading.value = true;
+    userApiState.isLoading.value = true;
     apiResult = await _userApi.getAllUser(FilterUser(filterBy: selectedType, pageSize: 10, page: pageNo));
-    apiState.isLoading.value = false;
+    userApiState.isLoading.value = false;
     if(apiResult.status == ApiStatus.success){
       FilterUserResponse response = FilterUserResponse.fromJson(apiResult.data);
       if(response.data!.isNotEmpty){
         allUsers.assignAll(response.data!);
       }
     }else{
-      apiState.isError.value = true;
+      userApiState.isError.value = true;
     }
   }
 
   Future<void> searchUser() async{
     if(search.text.isNotEmpty){
-      apiState.isLoading.value = true;
+      searchApiState.isLoading.value = true;
       apiResult = await _userApi.searchUser(SearchUser(phoneNumber: search.text, pageSize: 10, page: pageNo2));
-      apiState.isLoading.value = false;
+      searchApiState.isLoading.value = false;
       if(apiResult.status == ApiStatus.success){
         FilterUserResponse response = FilterUserResponse.fromJson(apiResult.data);
         if(response.data!.isNotEmpty){
           allUsers.assignAll(response.data!);
         }
       }else{
-        apiState.isError.value = true;
+        searchApiState.isError.value = true;
       }
     }
   }
@@ -81,8 +84,9 @@ class AllUserController extends GetxController{
 
   void _scrollListener() async {
     if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
-      await Future.delayed(Duration(seconds: 5));
+      pagenationApiState.isLoading.value = true;
       apiResult = await await _userApi.getAllUser(FilterUser(filterBy: selectedType, pageSize: 10, page: ++pageNo));
+      pagenationApiState.isLoading.value = false;
       if(apiResult.status == ApiStatus.success){
         FilterUserResponse response = FilterUserResponse.fromJson(apiResult.data);
         if(response.data!.isNotEmpty){
@@ -94,8 +98,9 @@ class AllUserController extends GetxController{
 
   void _scrollListener2() async {
     if (scrollController2.offset >= scrollController2.position.maxScrollExtent && !scrollController2.position.outOfRange) {
-      await Future.delayed(Duration(seconds: 5));
+      pagenationApiState2.isLoading.value = true;
       apiResult = await await _userApi.searchUser(SearchUser(phoneNumber: search.text, pageSize: 10, page: ++pageNo2));
+      pagenationApiState2.isLoading.value = false;
       if(apiResult.status == ApiStatus.success){
         FilterUserResponse response = FilterUserResponse.fromJson(apiResult.data);
         if(response.data!.isNotEmpty){

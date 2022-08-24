@@ -39,11 +39,11 @@ class HomeController extends GetxController {
     apiResultCard = await _loanApi.getNearLoan();
     loanApiState.isLoading.value = false;
     if (apiResultCard.status == ApiStatus.success) {
-      NearLoanResponse nearLoanResponse =
-          NearLoanResponse.fromJson(apiResultCard.data);
+      NearLoanResponse nearLoanResponse = NearLoanResponse.fromJson(apiResultCard.data);
       nearLoan = nearLoanResponse.data!;
       update();
     } else {
+      print(apiResultCard.status);
       loanApiState.isError.value = true;
     }
   }
@@ -57,31 +57,35 @@ class HomeController extends GetxController {
       allUsers.value = response.data;
     } else {
       userApiState.isError.value = true;
-      Get.defaultDialog(
-        barrierDismissible: false,
-        backgroundColor: Get.theme.backgroundColor,
-        title: 'Logout',
-        titleStyle: TextStyle(color: Get.theme.primaryColor, fontFamily: AppFont.fontFamily, ),
-        middleTextStyle: TextStyle(fontFamily: AppFont.fontFamily),
-        middleText: 'Some thing went wrong you must to logout now.',
-        confirm: TextButton(
-          onPressed: () {
-            SharedPreferencesController().sharedPreferences.remove('token');
-            Get.offNamed(Routes.signInScreen);
-          },
-          child: Text(
-            'LOGOUT',
-            style: TextStyle(
-                color: Get.theme.primaryColor,
-                fontFamily: AppFont.fontFamily),
-          ),
-        ),
-      );
+      logoutDialog();
     }
   }
 
   Future<void> onRefreshing() async {
     await getNearLoan();
     await getAllUser();
+  }
+
+  void logoutDialog(){
+    Get.defaultDialog(
+      barrierDismissible: false,
+      backgroundColor: Get.theme.backgroundColor,
+      title: 'Logout',
+      titleStyle: TextStyle(color: Get.theme.primaryColor, fontFamily: AppFont.fontFamily, ),
+      middleTextStyle: TextStyle(fontFamily: AppFont.fontFamily),
+      middleText: 'Some thing went wrong you must to logout now.',
+      confirm: TextButton(
+        onPressed: () {
+          SharedPreferencesController().sharedPreferences.remove('token');
+          Get.offNamed(Routes.signInScreen);
+        },
+        child: Text(
+          'LOGOUT',
+          style: TextStyle(
+              color: Get.theme.primaryColor,
+              fontFamily: AppFont.fontFamily),
+        ),
+      ),
+    );
   }
 }

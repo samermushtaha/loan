@@ -8,7 +8,9 @@ import 'package:loan_app/app_setting/app_local_storage.dart';
 import 'package:loan_app/app_setting/app_route.dart';
 import 'package:loan_app/controller/home_controller.dart';
 import 'package:loan_app/model/response/all_user_response.dart';
+import 'package:loan_app/widget/app_empty.dart';
 import 'package:loan_app/widget/app_error.dart';
+import 'package:loan_app/widget/app_loading.dart';
 import 'package:loan_app/widget/last_amount.dart';
 import 'package:loan_app/widget/last_load_card.dart';
 import 'package:loan_app/widget/app_user_card.dart';
@@ -50,7 +52,9 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () {return _controller.onRefreshing();},
+        onRefresh: () {
+          return _controller.onRefreshing();
+        },
         child: Stack(
           children: [
             Padding(
@@ -103,37 +107,37 @@ class HomeScreen extends StatelessWidget {
                         child: AppApiStates(
                           apiState: controller.userApiState,
                           list: controller.allUsers,
-                          loading: Container(
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: context.theme.primaryColor,
-                              ),
-                            ),
+                          loading: AppLoading(),
+                          empty: AppEmpty(),
+                          error: AppError(
+                            onClick: () {},
                           ),
                           success: ListView.separated(
                             itemBuilder: (context, index) {
                               return AppUserCard(
                                   UserCard(
-                                    phoneNumber: controller
-                                                .allUsers[index].firstName ==
-                                            null
-                                        ? ''
-                                        : controller.allUsers[index].phoneNumber,
+                                    phoneNumber:
+                                        controller.allUsers[index].firstName ==
+                                                null
+                                            ? ''
+                                            : controller
+                                                .allUsers[index].phoneNumber,
                                     image: controller.allUsers[index].image,
                                     firstName: controller
                                                 .allUsers[index].firstName ==
                                             null
                                         ? controller.allUsers[index].phoneNumber
                                         : controller.allUsers[index].firstName,
-                                    lastName:
-                                        controller.allUsers[index].lastName ==
-                                                null
-                                            ? ''
-                                            : controller.allUsers[index].lastName,
+                                    lastName: controller
+                                                .allUsers[index].lastName ==
+                                            null
+                                        ? ''
+                                        : controller.allUsers[index].lastName,
                                   ), () {
-                                Get.toNamed(Routes.loanDetailsScreen, arguments: [
-                                  controller.allUsers[index].phoneNumber
-                                ]);
+                                Get.toNamed(Routes.loanDetailsScreen,
+                                    arguments: [
+                                      controller.allUsers[index].phoneNumber
+                                    ]);
                               });
                             },
                             separatorBuilder: (context, index) {
@@ -143,19 +147,6 @@ class HomeScreen extends StatelessWidget {
                             },
                             itemCount: controller.allUsers.length,
                           ),
-                          empty: Container(
-                            child: Center(
-                              child: Text(
-                                'Empty',
-                                style: TextStyle(
-                                  color: context.theme.textTheme.headline1!.color,
-                                  fontFamily: AppFont.fontFamily,
-                                  fontSize: AppFont.medium,
-                                ),
-                              ),
-                            ),
-                          ),
-                          error: Container()
                         ),
                       );
                     })
@@ -166,8 +157,9 @@ class HomeScreen extends StatelessWidget {
 
             /// Last Loan Cart
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40).r,
-                child: LastLoanCard(controller: _controller)),
+              padding: const EdgeInsets.symmetric(horizontal: 40).r,
+              child: LastLoanCard(controller: _controller),
+            ),
           ],
         ),
       ),

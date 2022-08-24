@@ -5,6 +5,13 @@ import 'package:get/state_manager.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
 
 class ThemeController extends GetxController{
+
+  @override
+  void onInit() {
+    getThemeModeFromPreferences();
+    super.onInit();
+  }
+
   late ThemeMode _themeMode;
   ThemeMode get themeMode => _themeMode;
   static ThemeController get to => Get.find();

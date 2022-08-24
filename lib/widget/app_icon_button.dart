@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../app_setting/app_color.dart';
 
@@ -15,7 +16,7 @@ class AppIconButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColor.white,
+        color: context.theme.backgroundColor,
         boxShadow: [
           BoxShadow(
             color: AppColor.gray,

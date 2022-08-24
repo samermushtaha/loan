@@ -14,14 +14,12 @@ import 'package:loan_app/screen/notification_screen.dart';
 import 'package:loan_app/screen/out_boarding_screen.dart';
 import 'package:loan_app/screen/setting_screen.dart';
 import 'package:loan_app/screen/auth/sign_in_screen.dart';
-import 'package:loan_app/screen/user_info_screen.dart';
 import 'package:loan_app/screen/auth/verification_code_screen.dart';
 import '../controller/add_loan_controller.dart';
 import '../controller/all_user_controller.dart';
 import '../controller/edit_profile_controller.dart';
 import '../controller/map_controller.dart';
 import '../controller/sign_up_controller.dart';
-import '../controller/user_info_controller.dart';
 import '../controller/verification_code_controller.dart';
 import '../screen/auth/sign_up_screen.dart';
 
@@ -87,11 +85,6 @@ class AppRoute {
       page: () => SettingScreen(),
       binding: Binding.settingController,
     ),
-    GetPage(
-      name: Routes.userInfoScreen,
-      page: () => UserInfoScreen(),
-      binding: Binding.userInfoController,
-    ),
   ];
 }
 
@@ -120,9 +113,6 @@ class Binding {
   static final addLoanController = BindingsBuilder(() {
     Get.put(AddLoanController());
   });
-  // static final loanDetailsController = BindingsBuilder(() {
-  //   Get.put(LoanDetailsScreen());
-  // });
   static final notificationController = BindingsBuilder(() {
     Get.put(NotificationController());
   });
@@ -131,9 +121,6 @@ class Binding {
   });
   static final settingController = BindingsBuilder(() {
     Get.put(SettingController());
-  });
-  static final userInfoController = BindingsBuilder(() {
-    Get.put(UserInfoController());
   });
 }
 
@@ -150,5 +137,4 @@ class Routes {
   static const notificationScreen = '/notification_screen';
   static const editProfileScreen = '/edit_profile_screen';
   static const settingScreen = '/setting_screen';
-  static const userInfoScreen = '/user_info_screen';
 }

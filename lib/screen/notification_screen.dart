@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app_setting/app_font.dart';
-import 'package:loan_app/widget/app_notification.dart';
 
 import '../app_setting/app_color.dart';
 
@@ -18,7 +17,7 @@ class NotificationScreen extends StatelessWidget {
         title: Text(
           'notification'.tr,
           style: TextStyle(
-              color: AppColor.textColor,
+              color: context.theme.textTheme.headline2!.color,
               fontFamily: AppFont.fontFamily,
               fontSize: AppFont.veryLarge),
         ),

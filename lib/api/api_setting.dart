@@ -10,8 +10,9 @@ class ApiSetting{
   static const SEARCH_USER = BASE_URL + '/api/user/search';
   static const GET_TRANSACTION = BASE_URL + '/api/users/transaction';
   static const NEAR_LOAN = BASE_URL + '/api/near';
-  static const ADD_DEBITOR = BASE_URL + '/api/add_debitor';
+  static const ADD_DEBTOR = BASE_URL + '/api/add_debitor';
   static const ADD_Creditor = BASE_URL + '/api/add_creditor';
   static const ADD_PAYMENT = BASE_URL + '/api/payment';
   static const SELECT_USER = BASE_URL + '/api/users/select';
+  static const USER_DATA = BASE_URL + '/api/user/edit';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:loan_app/api/api_helper.dart';
 import 'package:loan_app/model/api_result.dart';
 
@@ -35,7 +36,7 @@ class EditProfileController extends GetxController{
     email = TextEditingController(text: SharedPreferencesController().currentUser.email);
     birthdate = TextEditingController(text: SharedPreferencesController().currentUser.birthdate);
     address = TextEditingController(text: SharedPreferencesController().currentUser.address);
-    currentImage = ApiSetting.BASE_URL + '/' + SharedPreferencesController().currentUser.image;
+    currentImage = SharedPreferencesController().currentUser.image != null ? ApiSetting.BASE_URL + '/' +  SharedPreferencesController().currentUser.image!: null ;
     super.onInit();
   }
 
@@ -57,7 +58,7 @@ class EditProfileController extends GetxController{
       lastDate: DateTime(DateTime.now().year),
     );
     if (dateTime != null) {
-      birthdate.text = dateTime.toString();
+      birthdate.text = DateFormat('yyyy-MM-dd').format(dateTime);
       update();
     }
   }
@@ -72,15 +73,15 @@ class EditProfileController extends GetxController{
   }
 
   Future<void> onEditClick() async {
-    if(formKey.currentState!.validate() && image != null){
+    address.text = SharedPreferencesController().getAddress;
+    if(formKey.currentState!.validate()){
       apiState.isLoading.value = true;
-      User user = User(firstName: firstName.text, lastName: lastName.text, address: address.text, email: email.text, birthdate: birthdate.text, latitude: SharedPreferencesController().latitude, longitude: SharedPreferencesController().longitude, image: image!.path);
+      User user = User(firstName: firstName.text, lastName: lastName.text, address: address.text, email: email.text, birthdate: birthdate.text, latitude: SharedPreferencesController().latitude, longitude: SharedPreferencesController().longitude, image: image != null ? image!.path : null);
       apiResult = await _authApi.editProfile(user);
       apiState.isLoading.value = false;
       if (apiResult.status == ApiStatus.success) {
         SignUpResponse response = SignUpResponse.fromJson(apiResult.data);
         SharedPreferencesController().setCurrentUserData2(response.data!);
-        print(SharedPreferencesController().currentUser.image);
         Get.back();
       } else {
         apiState.isError.value = true;

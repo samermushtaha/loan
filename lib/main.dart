@@ -1,26 +1,24 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app_setting/app_color.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
-import 'package:loan_app/app_setting/theme_controller.dart';
+import 'package:loan_app/controller/theme_controller.dart';
 import 'app_setting/app_language.dart';
 import 'app_setting/app_route.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesController().initSharedPreference();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final controller = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
-    ThemeController controller = Get.put(ThemeController());
-    controller.getThemeModeFromPreferences();
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (context, child) => GetMaterialApp(
@@ -36,3 +34,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+// فإن محاولة إعادة المكتبة ستكون بلا فائدة ولن تضيف أي قيمة إلى المكتبة ، وستكون مضيعة للوقت

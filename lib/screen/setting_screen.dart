@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app_setting/app_local_storage.dart';
-import 'package:loan_app/app_setting/theme_controller.dart';
+import 'package:loan_app/controller/theme_controller.dart';
 import 'package:loan_app/controller/setting_controller.dart';
 
 import '../app_setting/app_color.dart';

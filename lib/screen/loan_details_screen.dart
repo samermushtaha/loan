@@ -41,9 +41,6 @@ class LoanDetailsScreen extends StatelessWidget {
                   title:
                       GetBuilder<LoanDetailsController>(builder: (controller) {
                     return ListTile(
-                      onTap: () {
-                        Get.toNamed(Routes.userInfoScreen);
-                      },
                       leading: CircleAvatar(
                         backgroundImage: controller.selectedUser.user!.image !=
                                 null

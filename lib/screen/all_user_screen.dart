@@ -86,7 +86,7 @@ class AllUserScreen extends StatelessWidget {
             GetX<AllUserController>(builder: (controller) {
               return Expanded(
                 child: AppApiStates(
-                  apiState: controller.apiState,
+                  apiState: controller.userApiState,
                   list: controller.allUsers,
                   loading: Container(
                     child: Center(
